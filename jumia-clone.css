@@ -1,0 +1,38 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #e5e5e5;
+}
+
+.rate-star {
+  width: 100px;
+}
+
+.add-to-cart {
+  background-color: orange;
+}
+
+footer {
+  text-align: center;
+}
+
+@media only screen and (min-width: 576px) {
+  .product-image {
+    height: 250px;
+    object-fit: fill;
+  }
+
+  .mobile-border {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .tablet-border {
+    border-bottom: 1px solid grey;
+  }
+}

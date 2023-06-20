@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jumia Clone</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" href="images/logo.png" />
+    <link rel="stylesheet" href="jumia-clone.css" />
+  </head>
+  <body>
+    <!--NAV-BAR-->
+
+    <nav class="pt-0 navbar navbar-expand-lg bg-body-tertiary sticky-top">
+      <div class="container-fluid">
+        <a class="p-0 navbar-brand" href="#"
+          ><img
+            src="images/jumia.png"
+            alt="logo"
+            style="width: 110px; height: auto"
+            class="myLogo"
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarTogglerDemo02"
+          aria-controls="navbarTogglerDemo02"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Returns & Orders</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Cart (<span>0</span>)</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button
+              class="btn text-light"
+              style="background-color: #ffa500"
+              type="submit"
+            >
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <!--ITEMS-->
+    <div class="container">
+      <div class="tablet-border my-3 row">
+        <!--ITEM 1-->
+
+        <div class="my-product col-sm-4 col-lg-2">
+          <img
+            src="images/products/chair.jpg"
+            class="product-image w-100"
+            alt="chair"
+          />
+          <p class="my-2">Outdoor/Recreation Chair</p>
+          <div class="d-flex align-items-center">
+            <img
+              src="images/ratings/rating-40.png"
+              alt=""
+              class="rate-star h-auto me-3"
+            /><span class="text-primary">121</span>
+          </div>
+          <p class="my-1">&#8358; 23,000</p>
+          <div>
+            <input
+              type="number"
+              value="1"
+              min="1"
+              max="99"
+              class="select-quantity px-1"
+            />
+          </div>
+          <button
+            class="add-to-cart text-light my-4 mx-auto d-flex px-5 py-2 rounded shadow border-1"
+          >
+            Add to Cart
+          </button>
+          <div
+            class="mobile-border border-secondary border-1 border-bottom mb-4"
+          ></div>
+        </div>
+
+        <!--ITEM 2-->
+
+        <div class="my-product col-sm-4 col-lg-2">
+          <img
+            src="images/products/fan.jpg"
+            class="product-image w-100"
+            alt="fan"
+          />
+          <p class="my-2">Portable Fan</p>
+          <div class="d-flex align-items-center">
+            <img
+              src="images/ratings/rating-35.png"
+              alt=""
+              class="rate-star h-auto me-3"
+            /><span class="text-primary">52</span>
+          </div>
+          <p class="my-1">&#8358; 8,500</p>
+          <div>
+            <input
+              type="number"
+              value="1"
+              min="1"
+              max="99"
+              class="select-quantity px-1"
+            />
+          </div>
+          <button
+            class="add-to-cart text-light my-4 mx-auto d-flex px-5 py-2 rounded shadow border-1"
+          >
+            Add to Cart
+          </button>
+          <div
+            class="mobile-border border-secondary border-1 border-bottom mb-4"
+          ></div>
+        </div>
+
+        <!--ITEM 3-->
+
+        <div class="my-product col-sm-4 col-lg-2">
+          <img
+            src="images/products/mug.jpg"
+            class="product-image w-100"
+            alt="chair"
+          />
+          <p class="my-2">Glass Mug</p>
+          <div class="d-flex align-items-center">
+            <img
+              src="images/ratings/rating-40.png"
+              alt=""
+              class="rate-star h-auto me-3"
+            /><span class="text-primary">228</span>
+          </div>
+          <p class="my-1">&#8358; 3,650</p>
+          <div>
+            <input
+              type="number"
+              value="1"
+              min="1"
+              max="99"
+              class="select-quantity px-1"
+            />
+          </div>
+          <button
+            class="add-to-cart text-light my-4 mx-auto d-flex px-5 py-2 rounded shadow border-1"
+          >
+            Add to Cart
+          </button>
+          <div
+            class="mobile-border border-secondary border-1 border-bottom mb-4"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!--FOOTER-->
+
+    <footer class="container-fluid bg-black text-light p-3">
+      Jumia Clone &copy; Casmir 2023
+    </footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
