@@ -8,10 +8,6 @@ body {
   background-color: #e5e5e5;
 }
 
-.product-name {
-  height: 50px;
-}
-
 .rate-star {
   width: 100px;
 }
@@ -28,6 +24,10 @@ footer {
   .product-image {
     height: 250px;
     object-fit: fill;
+  }
+
+  .product-name {
+    height: 40px;
   }
 
   .mobile-border {
