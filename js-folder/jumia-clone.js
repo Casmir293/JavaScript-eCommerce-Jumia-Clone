@@ -1,6 +1,8 @@
 newDisplay = document.querySelector(".tablet-border");
 let productsHTML = "";
 
+//  GENERATE-THE-HTML
+
 products.forEach((product) => {
   productsHTML += `<div class="my-product col-sm-4 col-lg-2">
     <img
@@ -40,6 +42,10 @@ products.forEach((product) => {
 newDisplay.innerHTML = productsHTML;
 
 let jsAddToCart = document.querySelectorAll(".js-add-to-cart");
+let itemNotification = document.querySelector(".item-notification");
+
+//  ADD-TO-CART-BUTTON
+
 jsAddToCart.forEach((button) => {
   button.addEventListener("click", () => {
     const productId = button.dataset.productId;
@@ -49,6 +55,8 @@ jsAddToCart.forEach((button) => {
       `.select-quantity-${productId}`
     );
     selectQuantity = Number(selectQuantity.value);
+
+    //  Sort-Out-Item-Quantity
 
     cart.forEach((item) => {
       if (productId === item.productId) {
@@ -74,6 +82,14 @@ jsAddToCart.forEach((button) => {
     });
 
     document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+
+    // ITEM-NOTIFICATION
+
+    itemNotification.style.display = "Block";
+
+    setTimeout(function () {
+      itemNotification.style.display = "None";
+    }, 1500);
 
     console.log(cart);
   });

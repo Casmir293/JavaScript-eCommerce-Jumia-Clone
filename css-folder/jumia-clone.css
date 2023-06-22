@@ -8,6 +8,10 @@ body {
   background-color: #e5e5e5;
 }
 
+.item-notification {
+  display: none;
+}
+
 .rate-star {
   width: 100px;
 }
