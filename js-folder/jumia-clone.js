@@ -44,7 +44,28 @@ newDisplay.innerHTML = productsHTML;
 let jsAddToCart = document.querySelectorAll(".js-add-to-cart");
 let itemNotification = document.querySelector(".item-notification");
 
-//  ADD-TO-CART-BUTTON
+let cartQuantity = 0;
+
+// RETRIEVE CART FROM LOCAL STORAGE
+
+const storedCartArrayString = localStorage.getItem("cart");
+if (storedCartArrayString) {
+  const storedCartArray = JSON.parse(storedCartArrayString);
+  cart = storedCartArray;
+  console.log(cart);
+
+  // Calculate Cart Quantity
+
+  cart.forEach((item) => {
+    cartQuantity += item.quantity;
+  });
+
+  // Update Cart Quantity Display
+
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+}
+
+// ADD-TO-CART-BUTTON
 
 jsAddToCart.forEach((button) => {
   button.addEventListener("click", () => {
@@ -56,8 +77,7 @@ jsAddToCart.forEach((button) => {
     );
     selectQuantity = Number(selectQuantity.value);
 
-    //  Sort-Out-Item-Quantity
-
+    // Sort Out ItemQuantity
     cart.forEach((item) => {
       if (productId === item.productId) {
         matchingItem = item;
@@ -73,22 +93,28 @@ jsAddToCart.forEach((button) => {
       });
     }
 
+    // Return Input Value to Default After Adding to Cart
     document.querySelector(`.select-quantity-${productId}`).value = 1;
 
-    let cartQuantity = 0;
+    // Update cartQuantity
+    cartQuantity += selectQuantity;
 
-    cart.forEach((item) => {
-      cartQuantity += item.quantity;
-    });
-
+    // Update the cart quantity display
     document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 
-    // ITEM-NOTIFICATION
+    // Save cart to localStorage
+    const cartArrayString = JSON.stringify(cart);
+    localStorage.setItem("cart", cartArrayString);
 
-    itemNotification.style.display = "Block";
+    // Save cartQuantity to localStorage
+    const cartQuantityString = JSON.stringify(cartQuantity);
+    localStorage.setItem("cartQuantity", cartQuantityString);
+
+    // ITEM-NOTIFICATION
+    itemNotification.style.display = "block";
 
     setTimeout(function () {
-      itemNotification.style.display = "None";
+      itemNotification.style.display = "none";
     }, 1500);
 
     console.log(cart);
