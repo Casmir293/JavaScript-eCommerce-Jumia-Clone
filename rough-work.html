@@ -169,7 +169,7 @@
         value="1"
         min="1"
         max="99"
-        class="select-quantity-${product.id} px-1"
+        class="select-quantity-${product.id} addPrice px-1"
       />
     </div>
     <button
@@ -208,6 +208,18 @@
         // Update Cart Quantity Display
 
         document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+      }
+
+      function calculateTotalAmount() {
+        let totalAmount = 0;
+
+        cart.forEach((item) => {
+          const product = products.find((p) => p.id === item.productId);
+          if (product) {
+            totalAmount += product.priceCent * item.quantity;
+          }
+        });
+        return totalAmount;
       }
 
       // ADD-TO-CART-BUTTON
@@ -267,6 +279,11 @@
             }, 1500);
 
             console.log(cart);
+            // Calculate total amount
+            const totalAmount = calculateTotalAmount();
+
+            // Display total amount in the console
+            console.log("Total Amount:", totalAmount);
           });
         });
       }
