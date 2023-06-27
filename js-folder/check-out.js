@@ -1,3 +1,11 @@
+//  GENERATE HTML
+// let checkOutItemDisplay = document.querySelector(".checkOutItemDisplay");
+// let checkOutItem = "";
+// cart.forEach((product) => {
+//   checkOutItem += `hello${product.name}`;
+// });
+// checkOutItemDisplay.innerHTML = checkOutItem;
+
 //  Display Stored Item Quantity
 let topNumOfItemsDOM = document.querySelector(".topNumOfItemsDOM");
 let numOfItemsDOM = document.querySelector(".numOfItemsDOM");

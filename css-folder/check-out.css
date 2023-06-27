@@ -12,6 +12,10 @@ body {
   background-color: orange;
 }
 
+.update-cancel span {
+  cursor: pointer;
+}
+
 footer {
   text-align: center;
 }
@@ -32,5 +36,9 @@ footer {
   .checkout-box {
     padding-left: 0px;
     padding-right: 0px;
+  }
+
+  .order-summary-box {
+    width: 350px;
   }
 }
