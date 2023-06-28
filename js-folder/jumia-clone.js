@@ -69,7 +69,7 @@ calculateTotalAmount = () => {
   let totalAmount = 0;
 
   cart.forEach((item) => {
-    const product = products.find((p) => p.id === item.productId);
+    const product = products.find((p) => p.id === item.id);
     if (product) {
       totalAmount += product.priceCent * item.quantity;
     }
@@ -83,27 +83,26 @@ function assignAddToCartListeners() {
   jsAddToCart.forEach((button) => {
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
-
       let matchingItem;
       let selectQuantity = document.querySelector(
         `.select-quantity-${productId}`
       );
       selectQuantity = Number(selectQuantity.value);
 
-      // Sort Out ItemQuantity
-      cart.forEach((item) => {
-        if (productId === item.productId) {
-          matchingItem = item;
-        }
-      });
+      const index = cart.findIndex((item) => item.id === productId);
 
-      if (matchingItem) {
-        matchingItem.quantity += selectQuantity;
+      if (index !== -1) {
+        // Product already exists in the cart, update its quantity
+        cart[index].quantity += selectQuantity;
       } else {
-        cart.push({
-          productId: productId,
-          quantity: selectQuantity,
-        });
+        // Product doesn't exist in the cart, add a new item
+        const product = products.find((p) => p.id === productId);
+        if (product) {
+          cart.push({
+            ...product,
+            quantity: selectQuantity,
+          });
+        }
       }
 
       // Return Input Value to Default After Adding to Cart

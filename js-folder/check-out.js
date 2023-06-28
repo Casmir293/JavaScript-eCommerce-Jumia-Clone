@@ -1,10 +1,45 @@
+let storedCartArrayString = localStorage.getItem("cart");
+newCart = JSON.parse(storedCartArrayString);
+console.log(newCart);
 //  GENERATE HTML
-// let checkOutItemDisplay = document.querySelector(".checkOutItemDisplay");
-// let checkOutItem = "";
-// cart.forEach((product) => {
-//   checkOutItem += `hello${product.name}`;
-// });
-// checkOutItemDisplay.innerHTML = checkOutItem;
+let checkOutItemDisplay = document.querySelector(".checkOutItemDisplay");
+let cartIsEmpty = document.querySelector(".cartIsEmpty");
+let checkOutItem = "";
+newCart.forEach((product) => {
+  checkOutItem += `
+  <h5 class='mb-3'>Review Your Order</h5>
+  <div
+  class="border border-dark rounded p-1 mb-5 lh-lg"
+>
+  <img
+    src="${product.image}"
+    class="w-100"
+    style="height: 300px; object-fit: cover;"
+    alt="${product.name}"
+  />
+  <b class="px-2">${product.name}</b>
+  <b>&#8358; <span>12500</span></b>
+  <p class="px-2">Quantity: <span>${product.quantity}</span></p>
+  <div class="d-flex justify-content-evenly">
+    <p class="btn btn-outline-dark">Update</p>
+    <p class="btn btn-outline-dark">Delete</p>
+  </div>
+  <div class="update-cancel">
+    <input type="number" min="1" max="99" class="px-2 ms-5 mb-3" />
+    <span class="mx-2 text-primary">Update</span>
+    <span class="text-primary">Cancel</span>
+  </div>
+</div>`;
+});
+checkOutItemDisplay.innerHTML = checkOutItem;
+
+if (newCart === []) {
+  checkOutItemDisplay.style.display = "None";
+  cartIsEmpty.style.display = "Block";
+} else {
+  checkOutItemDisplay.style.display = "Block";
+  cartIsEmpty.style.display = "None";
+}
 
 //  Display Stored Item Quantity
 let topNumOfItemsDOM = document.querySelector(".topNumOfItemsDOM");
