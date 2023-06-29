@@ -1,13 +1,19 @@
 let storedCartArrayString = localStorage.getItem("cart");
 newCart = JSON.parse(storedCartArrayString);
 console.log(newCart);
+let cartIsEmpty = document.querySelector(".cartIsEmpty");
+let reviewOrder = document.querySelector(".review-order");
+reviewOrder.style.display = "None";
+clearCart = document.querySelector(".clear-cart");
+clearCart.style.display = "None";
+let deleteBtn = document.querySelector(".delete-button");
+
 //  GENERATE HTML
 let checkOutItemDisplay = document.querySelector(".checkOutItemDisplay");
-let cartIsEmpty = document.querySelector(".cartIsEmpty");
 let checkOutItem = "";
+
 newCart.forEach((product) => {
   checkOutItem += `
-  <h5 class='mb-3'>Review Your Order</h5>
   <div
   class="border border-dark rounded p-1 mb-5 lh-lg"
 >
@@ -22,7 +28,7 @@ newCart.forEach((product) => {
   <p class="px-2">Quantity: <span>${product.quantity}</span></p>
   <div class="d-flex justify-content-evenly">
     <p class="btn btn-outline-dark">Update</p>
-    <p class="btn btn-outline-dark">Delete</p>
+    <p class="delete-button btn btn-outline-dark">Delete</p>
   </div>
   <div class="update-cancel">
     <input type="number" min="1" max="99" class="px-2 ms-5 mb-3" />
@@ -31,6 +37,7 @@ newCart.forEach((product) => {
   </div>
 </div>`;
 });
+
 checkOutItemDisplay.innerHTML = checkOutItem;
 
 if (newCart === []) {
@@ -39,6 +46,8 @@ if (newCart === []) {
 } else {
   checkOutItemDisplay.style.display = "Block";
   cartIsEmpty.style.display = "None";
+  reviewOrder.style.display = "Block";
+  clearCart.style.display = "Block";
 }
 
 //  Display Stored Item Quantity
@@ -99,3 +108,12 @@ let formattedpayableAmount = payableAmountFixed.replace(
   ","
 );
 finalAmount.innerHTML = formattedpayableAmount;
+
+//  Clear Local Storage
+clearCart.addEventListener(
+  "click",
+  (clearCartFunction = () => {
+    localStorage.clear();
+    location.reload();
+  })
+);
