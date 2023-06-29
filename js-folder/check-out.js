@@ -6,13 +6,12 @@ let reviewOrder = document.querySelector(".review-order");
 reviewOrder.style.display = "None";
 clearCart = document.querySelector(".clear-cart");
 clearCart.style.display = "None";
-let deleteBtn = document.querySelector(".delete-button");
 
 //  GENERATE HTML
 let checkOutItemDisplay = document.querySelector(".checkOutItemDisplay");
 let checkOutItem = "";
 
-newCart.forEach((product) => {
+newCart.forEach((product, index) => {
   checkOutItem += `
   <div
   class="border border-dark rounded p-1 mb-5 lh-lg"
@@ -28,7 +27,7 @@ newCart.forEach((product) => {
   <p class="px-2">Quantity: <span>${product.quantity}</span></p>
   <div class="d-flex justify-content-evenly">
     <p class="btn btn-outline-dark">Update</p>
-    <p class="delete-button btn btn-outline-dark">Delete</p>
+    <p class="delete-button btn btn-outline-dark" data-index="${index}">Delete</p>
   </div>
   <div class="update-cancel">
     <input type="number" min="1" max="99" class="px-2 ms-5 mb-3" />
@@ -40,7 +39,23 @@ newCart.forEach((product) => {
 
 checkOutItemDisplay.innerHTML = checkOutItem;
 
-if (newCart === []) {
+//  Delete Button
+let deleteBtn = document.querySelectorAll(".delete-button");
+
+deleteBtn.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    // retrieve the index from the data-index attribute
+    const index = event.target.dataset.index;
+    // remove the product from the newCart array
+    newCart.splice(index, 1);
+    // update the cart in local storage
+    localStorage.setItem("cart", JSON.stringify(newCart));
+    // reload the page to reflect the changes
+    location.reload();
+  });
+});
+
+if (newCart.length === 0) {
   checkOutItemDisplay.style.display = "None";
   cartIsEmpty.style.display = "Block";
 } else {
