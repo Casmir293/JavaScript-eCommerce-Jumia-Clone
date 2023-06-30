@@ -20,6 +20,11 @@ body {
   cursor: pointer;
 }
 
+.scroll-vertical {
+  overflow-y: auto;
+  max-height: 700px;
+}
+
 footer {
   text-align: center;
 }
@@ -33,6 +38,10 @@ footer {
   .checkout-box {
     padding-left: 150px;
     padding-right: 150px;
+  }
+
+  .bottom-space {
+    height: 100px;
   }
 }
 

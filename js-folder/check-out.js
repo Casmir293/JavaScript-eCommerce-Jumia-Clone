@@ -14,30 +14,62 @@ let checkOutItem = "";
 newCart.forEach((product, index) => {
   checkOutItem += `
   <div
-  class="border border-dark rounded p-1 mb-5 lh-lg"
+  class="border border-secondary rounded p-1 mb-5 lh-lg shadow-lg"
 >
-  <img
+<div class='row'><div class='col-lg'><img
     src="${product.image}"
     class="w-100"
     style="height: 300px; object-fit: cover;"
     alt="${product.name}"
-  />
+  /></div>
+
+  <div class='col-lg mt-lg-5'>
   <b class="px-2">${product.name}</b>
-  <b>&#8358; <span>12500</span></b>
+  <b>&#8358; <span>${product.priceCent}</span></b>
   <p class="px-2">Quantity: <span>${product.quantity}</span></p>
-  <div class="d-flex justify-content-evenly">
-    <p class="btn btn-outline-dark">Update</p>
+  <div class="update-delete-btn mt-4">
+    <p class="btn btn-outline-dark me-2">Update</p>
     <p class="delete-button btn btn-outline-dark" data-index="${index}">Delete</p>
   </div>
   <div class="update-cancel">
-    <input type="number" min="1" max="99" class="px-2 ms-5 mb-3" />
+    <input type="number" min="1" max="99" class="px-2  mb-3" />
     <span class="mx-2 text-primary">Update</span>
     <span class="text-primary">Cancel</span>
-  </div>
+  </div></div></div>
 </div>`;
 });
 
 checkOutItemDisplay.innerHTML = checkOutItem;
+
+// Function to update cartQuantity and totalAmount in localStorage
+function updateCartInfo() {
+  // Calculate the updated cartQuantity
+  let updatedCartQuantity = newCart.reduce(
+    (acc, product) => acc + product.quantity,
+    0
+  );
+  // Calculate the updated totalAmount
+  let updatedTotalAmount = newCart.reduce(
+    (acc, product) => acc + product.quantity * product.priceCent,
+    0
+  );
+
+  // Update cartQuantity in localStorage
+  localStorage.setItem("cartQuantity", JSON.stringify(updatedCartQuantity));
+  // Update totalAmount in localStorage
+  localStorage.setItem("totalAmount", JSON.stringify(updatedTotalAmount));
+
+  // Update the displayed values on the page
+  topNumOfItemsDOM.innerHTML = updatedCartQuantity;
+  numOfItemsDOM.innerHTML = updatedCartQuantity;
+
+  let totalAmountFixed = updatedTotalAmount.toFixed(2);
+  let formattedTotalAmount = totalAmountFixed.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    ","
+  );
+  totalAmount.innerHTML = formattedTotalAmount;
+}
 
 //  Delete Button
 let deleteBtn = document.querySelectorAll(".delete-button");
@@ -48,6 +80,8 @@ deleteBtn.forEach((button) => {
     const index = event.target.dataset.index;
     // remove the product from the newCart array
     newCart.splice(index, 1);
+    // Update cartQuantity and totalAmount in localStorage
+    updateCartInfo();
     // update the cart in local storage
     localStorage.setItem("cart", JSON.stringify(newCart));
     // reload the page to reflect the changes
@@ -83,20 +117,16 @@ let formattedTotalAmount = totalAmountFixed.replace(
 );
 totalAmount.innerHTML = formattedTotalAmount;
 
-//  Shipping & Handling
-let shipping = document.querySelector(".shipping");
-let paidShipping = JSON.parse(storedTotalAmountString);
-let shippingFee = 3500;
-if (paidShipping < 100000) {
-  shipping.innerHTML = `${shippingFee.toLocaleString("en-US")}.00`;
-}
-
 //  Total Before Tax
+let paidShipping = JSON.parse(storedTotalAmountString);
+let shipping = document.querySelector(".shipping");
 let beforeTax = document.querySelector(".beforeTax");
 let newTotalAmountFixed = Number(totalAmountFixed);
+let shippingFee = 3500;
 let calcBeforeTax;
-if (paidShipping < 100000) {
+if (paidShipping > 0 && paidShipping < 100000) {
   calcBeforeTax = shippingFee + newTotalAmountFixed;
+  shipping.innerHTML = `${shippingFee.toLocaleString("en-US")}.00`;
 } else {
   calcBeforeTax = newTotalAmountFixed;
 }
@@ -132,3 +162,4 @@ clearCart.addEventListener(
     location.reload();
   })
 );
+// The shipping.innerHTML
