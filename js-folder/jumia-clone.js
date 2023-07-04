@@ -2,12 +2,11 @@ newDisplay = document.querySelector(".tablet-border");
 let productsHTML = "";
 
 //  GENERATE-THE-HTML
-
 products.forEach((product) => {
-  productsHTML += `<div class="my-product col-sm-4 col-lg-2">
+  productsHTML += `<div class="my-product col-sm-4 col-lg-3">
     <img
       src="${product.image}"
-      class="product-image w-100"
+      class="product-image w-100 shadow-lg rounded"
     />
     <p class="product-name my-2">${product.name}</p>
     <div class="d-flex align-items-center">
@@ -17,7 +16,7 @@ products.forEach((product) => {
         class="rate-star h-auto me-3"
       /><span class="text-primary">${product.rating.rateValue}</span>
     </div>
-    <p class="my-1">&#8358; ${product.priceCent}</p>
+    <p class="my-1">&#8358; ${product.priceCent.toLocaleString("en-US")}</p>
     <div>
       <input
         type="number"
@@ -28,7 +27,7 @@ products.forEach((product) => {
       />
     </div>
     <button
-      class="add-to-cart js-add-to-cart text-light my-4 mx-auto mx-sm-0 d-flex
+      class="add-to-cart js-add-to-cart text-light my-4 mt-sm-3 mb-sm-5 mx-auto mx-sm-0 d-flex
       px-5 py-2 rounded shadow border-1" data-product-id="${product.id}"
     >
       Add to Cart
@@ -45,26 +44,22 @@ let itemNotification = document.querySelector(".item-notification");
 
 let cartQuantity = 0;
 
-// RETRIEVE CART FROM LOCAL STORAGE
-
+//  RETRIEVE CART FROM LOCAL STORAGE
 const storedCartArrayString = localStorage.getItem("cart");
 if (storedCartArrayString) {
   const storedCartArray = JSON.parse(storedCartArrayString);
   cart = storedCartArray;
-  console.log(cart);
 
-  // Calculate Cart Quantity
-
+  //  Calculate Cart Quantity
   cart.forEach((item) => {
     cartQuantity += item.quantity;
   });
 
-  // Update Cart Quantity Display
-
+  //  Update Cart Quantity Display
   document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 }
 
-// CALCULATE TOTAL COST FUNCTION
+//  CALCULATE TOTAL COST FUNCTION
 calculateTotalAmount = () => {
   let totalAmount = 0;
 
@@ -77,7 +72,7 @@ calculateTotalAmount = () => {
   return totalAmount;
 };
 
-// ADD-TO-CART-BUTTON
+//  ADD-TO-CART-BUTTON
 function assignAddToCartListeners() {
   let jsAddToCart = document.querySelectorAll(".js-add-to-cart");
   jsAddToCart.forEach((button) => {
@@ -92,10 +87,10 @@ function assignAddToCartListeners() {
       const index = cart.findIndex((item) => item.id === productId);
 
       if (index !== -1) {
-        // Product already exists in the cart, update its quantity
+        //  Product already exists in the cart, update it's quantity
         cart[index].quantity += selectQuantity;
       } else {
-        // Product doesn't exist in the cart, add a new item
+        //  Product doesn't exist in the cart, add a new item
         const product = products.find((p) => p.id === productId);
         if (product) {
           cart.push({
@@ -105,16 +100,16 @@ function assignAddToCartListeners() {
         }
       }
 
-      // Return Input Value to Default After Adding to Cart
+      //  Return Input Value to Default After Adding to Cart
       document.querySelector(`.select-quantity-${productId}`).value = 1;
 
-      // Update cartQuantity
+      //  Update cartQuantity
       cartQuantity += selectQuantity;
 
-      // Update the cart quantity display
+      //  Update the cart quantity displaying on the Screen
       document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 
-      // ITEM-NOTIFICATION
+      //  ADDED TO CART NOTIFICATION
       itemNotification.style.display = "block";
 
       setTimeout(function () {

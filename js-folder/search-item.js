@@ -25,7 +25,7 @@ searchForm.addEventListener("submit", (e) => {
     //  Generate HTML for Filtered Item
     filteredProducts.forEach((product) => {
       const productHTML = `
-    <div class="my-product col-sm-4 col-lg-2">
+    <div class="my-product col-sm-4 col-lg-3">
       <img src="${product.image}" class="product-image w-100"/>
       <p class="product-name my-2">${product.name}</p>
       <div class="d-flex align-items-center">
@@ -34,7 +34,7 @@ searchForm.addEventListener("submit", (e) => {
         }.png" loading="lazy" class="rate-star h-auto me-3"/>
         <span class="text-primary">${product.rating.rateValue}</span>
       </div>
-      <p class="my-1">&#8358; ${product.priceCent}</p>
+      <p class="my-1">&#8358; ${product.priceCent.toLocaleString("en-US")}</p>
       <div>
         <input type="number" value="1" min="1" max="99" class="select-quantity-${
           product.id
@@ -49,6 +49,15 @@ searchForm.addEventListener("submit", (e) => {
     </div>
   `;
       searchedResults.innerHTML += productHTML;
+
+      //  Create a space before the footer
+      const newDiv = document.createElement("div");
+      newDiv.style.height = "50px";
+      document.body.appendChild(newDiv);
+
+      //  Footer
+      footer.style.position = "fixed";
+      footer.style.bottom = "0";
     });
   } else {
     searchedResults.innerHTML = `

@@ -1,9 +1,9 @@
+//  DECLERE VARIABLES
 let storedCartArrayString = localStorage.getItem("cart");
 let newCart = [];
 if (storedCartArrayString) {
   newCart = JSON.parse(storedCartArrayString);
 }
-console.log(newCart);
 let cartIsEmpty = document.querySelector(".cartIsEmpty");
 let reviewOrder = document.querySelector(".review-order");
 reviewOrder.style.display = "None";
@@ -27,17 +27,18 @@ if (newCart && newCart.length > 0) {
     style="height: 300px; object-fit: cover;"
     alt="${product.name}"
   /></div>
-
   <div class='col-lg mt-lg-5'>
   <b class="px-2">${product.name}</b>
-  <b>&#8358; <span>${product.priceCent}</span></b>
+  <b>&#8358; <span>${product.priceCent.toLocaleString("en-US")}</span></b>
   <p class="px-2">Quantity: <span>${product.quantity}</span></p>
   <div class="update-delete-btn mt-4">
     <p class="parent-update btn btn-outline-dark me-2">Update</p>
     <p class="delete-button btn btn-outline-dark" data-index="${index}">Delete</p>
   </div>
   <div class="update-cancel" id="updateCancel_${index}">
-    <input type="number" min="1" max="99" class="updateQuantityValue px-2  mb-3" value="${product.quantity}" />
+    <input type="number" min="1" max="99" class="updateQuantityValue px-2  mb-3" value="${
+      product.quantity
+    }" />
     <span class="updateQuantity mx-2 text-primary">Update</span>
     <span class="cancel-update text-primary">Cancel</span>
   </div></div></div>
@@ -62,7 +63,7 @@ window.addEventListener("beforeunload", function () {
   );
 });
 
-// UPDATING FEATURE
+// PRODUCT UPDATING FEATURE
 let updateCancelList = document.querySelectorAll(".update-cancel");
 updateCancelList.forEach((updateCancel) => {
   updateCancel.style.display = "none";
@@ -84,8 +85,6 @@ parentUpdateList.forEach((button, index) => {
     updateCancelDiv.style.display = "none";
   });
 });
-
-//  ENDS HERE
 
 // Function to update cartQuantity and totalAmount in localStorage
 function updateCartInfo() {
