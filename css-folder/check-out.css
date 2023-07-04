@@ -20,11 +20,6 @@ body {
   cursor: pointer;
 }
 
-.scroll-vertical {
-  overflow-y: auto;
-  max-height: 700px;
-}
-
 footer {
   text-align: center;
 }
@@ -53,5 +48,10 @@ footer {
 
   .order-summary-box {
     width: 350px;
+  }
+
+  .scroll-vertical {
+    overflow-y: auto;
+    max-height: 700px;
   }
 }
