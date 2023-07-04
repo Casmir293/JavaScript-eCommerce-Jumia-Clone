@@ -1,5 +1,8 @@
 let storedCartArrayString = localStorage.getItem("cart");
-newCart = JSON.parse(storedCartArrayString);
+let newCart = [];
+if (storedCartArrayString) {
+  newCart = JSON.parse(storedCartArrayString);
+}
 console.log(newCart);
 let cartIsEmpty = document.querySelector(".cartIsEmpty");
 let reviewOrder = document.querySelector(".review-order");
@@ -11,8 +14,10 @@ clearCart.style.display = "None";
 let checkOutItemDisplay = document.querySelector(".checkOutItemDisplay");
 let checkOutItem = "";
 
-newCart.forEach((product, index) => {
-  checkOutItem += `
+if (newCart && newCart.length > 0) {
+  newCart.forEach((product, index) => {
+    const updateCancelId = `updateCancel_${index}`;
+    checkOutItem += `
   <div
   class="border border-secondary rounded p-1 mb-5 lh-lg shadow-lg"
 >
@@ -28,18 +33,52 @@ newCart.forEach((product, index) => {
   <b>&#8358; <span>${product.priceCent}</span></b>
   <p class="px-2">Quantity: <span>${product.quantity}</span></p>
   <div class="update-delete-btn mt-4">
-    <p class="btn btn-outline-dark me-2">Update</p>
+    <p class="parent-update btn btn-outline-dark me-2">Update</p>
     <p class="delete-button btn btn-outline-dark" data-index="${index}">Delete</p>
   </div>
-  <div class="update-cancel">
-    <input type="number" min="1" max="99" class="px-2  mb-3" />
-    <span class="mx-2 text-primary">Update</span>
-    <span class="text-primary">Cancel</span>
+  <div class="update-cancel" id="updateCancel_${index}">
+    <input type="number" min="1" max="99" class="updateQuantityValue px-2  mb-3" value="${product.quantity}" />
+    <span class="updateQuantity mx-2 text-primary">Update</span>
+    <span class="cancel-update text-primary">Cancel</span>
   </div></div></div>
 </div>`;
+  });
+}
+checkOutItemDisplay.innerHTML = checkOutItem;
+
+// Get the scroll position from localStorage if available
+var scrollPosition = localStorage.getItem("scrollPosition");
+
+// Set the scroll position of the .scroll-vertical div
+if (scrollPosition) {
+  document.querySelector(".scroll-vertical").scrollTop = scrollPosition;
+}
+
+// Save the scroll position in localStorage when the page is unloaded
+window.addEventListener("beforeunload", function () {
+  localStorage.setItem(
+    "scrollPosition",
+    document.querySelector(".scroll-vertical").scrollTop
+  );
 });
 
-checkOutItemDisplay.innerHTML = checkOutItem;
+// UPDATING FEATURE
+let updateCancelList = document.querySelectorAll(".update-cancel");
+updateCancelList.forEach((updateCancel) => {
+  updateCancel.style.display = "none";
+});
+
+let parentUpdateList = document.querySelectorAll(".parent-update");
+parentUpdateList.forEach((button, index) => {
+  button.addEventListener("click", () => {
+    // Unique ID for updateCancel div
+    const updateCancelId = `#updateCancel_${index}`;
+    const updateCancelDiv = document.querySelector(updateCancelId);
+    updateCancelDiv.style.display = "block";
+  });
+});
+
+//  ENDS HERE
 
 // Function to update cartQuantity and totalAmount in localStorage
 function updateCartInfo() {
@@ -70,6 +109,35 @@ function updateCartInfo() {
   );
   totalAmount.innerHTML = formattedTotalAmount;
 }
+
+// Function to update the quantity of a product
+function updateQuantity(index, quantity) {
+  // Update the quantity in the newCart array
+  newCart[index].quantity = quantity;
+  // Update the cart in local storage
+  localStorage.setItem("cart", JSON.stringify(newCart));
+  // Update cartQuantity and totalAmount in localStorage
+  updateCartInfo();
+}
+
+// Event listener for the "Update" button
+let updateBtn = document.querySelectorAll(".updateQuantity");
+let updateQuantityValue = document.querySelectorAll(".updateQuantityValue");
+
+updateBtn.forEach((button, index) => {
+  button.addEventListener("click", () => {
+    const quantity = parseInt(updateQuantityValue[index].value);
+    if (!isNaN(quantity) && quantity >= 1 && quantity <= 99) {
+      updateQuantity(index, quantity);
+      const updateCancelId = `#updateCancel_${index}`; // Unique ID for updateCancel div
+      const updateCancelDiv = document.querySelector(updateCancelId);
+      updateCancelDiv.style.display = "None";
+      location.reload(); // Reload the page to reflect the changes
+    } else {
+      alert("Invalid quantity! Please enter a number between 1 and 99.");
+    }
+  });
+});
 
 //  Delete Button
 let deleteBtn = document.querySelectorAll(".delete-button");
@@ -109,12 +177,15 @@ numOfItemsDOM.innerHTML = JSON.parse(storedCartQuantityString);
 //  Display total money in cart
 let totalAmount = document.querySelector(".totalAmount");
 const storedTotalAmountString = localStorage.getItem("totalAmount");
-let storedTotalAmount = JSON.parse(storedTotalAmountString);
-let totalAmountFixed = storedTotalAmount.toFixed(2);
-let formattedTotalAmount = totalAmountFixed.replace(
-  /\B(?=(\d{3})+(?!\d))/g,
-  ","
-);
+//let storedTotalAmount = JSON.parse(storedTotalAmountString);
+let totalAmountFixed = storedTotalAmountString
+  ? parseFloat(storedTotalAmountString).toFixed(2)
+  : 0;
+
+let formattedTotalAmount = totalAmountFixed
+  .toString()
+  .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
 totalAmount.innerHTML = formattedTotalAmount;
 
 //  Total Before Tax
@@ -162,4 +233,31 @@ clearCart.addEventListener(
     location.reload();
   })
 );
-// The shipping.innerHTML
+
+// Place Order Btn
+let placeOrderBtn = document.querySelector(".place-order-btn");
+placeOrderBtn.addEventListener("click", () => {
+  if (newCart.length === 0) {
+    alert("Your Cart is Empty");
+  } else {
+    let myModalDisplay = document.querySelector(".myModalDisplay");
+    let myModal = `
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Payment Options</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <span class="spinner-border text-warning"></span><span class="mx-5">Coming Soon!</span>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    myModalDisplay.innerHTML = myModal;
+  }
+});
