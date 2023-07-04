@@ -76,6 +76,13 @@ parentUpdateList.forEach((button, index) => {
     const updateCancelDiv = document.querySelector(updateCancelId);
     updateCancelDiv.style.display = "block";
   });
+
+  // Add event listener to the "Cancel" button
+  const updateCancelDiv = document.querySelector(`#updateCancel_${index}`);
+  const cancelUpdate = updateCancelDiv.querySelector(".cancel-update");
+  cancelUpdate.addEventListener("click", () => {
+    updateCancelDiv.style.display = "none";
+  });
 });
 
 //  ENDS HERE
@@ -129,10 +136,11 @@ updateBtn.forEach((button, index) => {
     const quantity = parseInt(updateQuantityValue[index].value);
     if (!isNaN(quantity) && quantity >= 1 && quantity <= 99) {
       updateQuantity(index, quantity);
-      const updateCancelId = `#updateCancel_${index}`; // Unique ID for updateCancel div
+      // Unique ID for updateCancel div
+      const updateCancelId = `#updateCancel_${index}`;
       const updateCancelDiv = document.querySelector(updateCancelId);
       updateCancelDiv.style.display = "None";
-      location.reload(); // Reload the page to reflect the changes
+      location.reload();
     } else {
       alert("Invalid quantity! Please enter a number between 1 and 99.");
     }
